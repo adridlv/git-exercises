@@ -1,0 +1,78 @@
+{
+  "name": "emergya-logger",
+  "version": "1.5.10",
+  "description": "develop version dated on 2021/04/26",
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "audit": "(npm run key-add || true) && (npm i --ignore-scripts || npm run clean && npm i --ignore-scripts) && npm audit --audit-level=high && exit $? ",
+    "build": "(npm run key-add || true) && npm i && tsc && npm pack && mv ${npm_package_name}-${npm_package_version}.tgz ${npm_package_name}.tgz && npm run key-remove && npm run eslint",
+    "build-audit": "npm run clean && npm run audit && tsc && npm pack && mv ${npm_package_name}-${npm_package_version}.tgz ${npm_package_name}.tgz && npm run key-remove",
+    "clean": "rm -rf node_modules dist package-lock.json *.tgz || true",
+    "clean-build": "npm run clean && npm run build",
+    "compile-eslint": "cd `npm run eslint-location | tail -1` && npm run build-eslint",
+    "enable-eslint": "cd `npm run eslint-location | tail -1`/eslintRules/ && cp -u package.json .eslintrc.js .eslintignore ../",
+    "eslint": "npm run git-hook && npm run enable-eslint && npm run compile-eslint",
+    "eslint-location": "([ -d \"../eslintRules/\" ] && echo '../') || ([ -d \"../../eslintRules/\" ] && echo '../../') || ([ -d \"../../../eslintRules/\" ] && echo '../../../') || (echo EslintRules not found && exit 1)",
+    "git-hook": "cd `npm run eslint-location | tail -1`eslintRules && npm run git-hook",
+    "key-add": "local_key=`(grep -shE 'key=(.*)' ./emergya.properties ../emergya.properties ../../emergya.properties ../../../emergya.properties | head -1 2> /dev/null || echo\"\") | sed -E 's#key=(.*)#\\1#'` && [ ! -z \"$local_key\" ] && (sed -i.bk -E \"s#https:\\/\\/virtual-assisant-product\\.ew\\.r\\.appspot\\.com\\/(.*)\\/(.+)\\.tgz(.)(\\,){0,1}\\$#https:\\/\\/virtual-assisant-product\\.ew\\.r\\.appspot\\.com\\/\\1\\/\\2.tgz?key=\"$local_key\"\\3\\4#g\" package.json) && rm package.json.bk || echo \"No key found\"",
+    "key-remove": "(sed -i.bk -E \"s#https:\\/\\/virtual-assisant-product\\.ew\\.r\\.appspot\\.com\\/(.*)\\/(.+)\\.tgz\\?key=([0-9a-zA-Z\\-]+)(.)(\\,){0,1}#https:\\/\\/virtual-assisant-product\\.ew\\.r\\.appspot\\.com\\/\\1\\/\\2.tgz\\4\\5#g\" package.json) && rm package.json.bk",
+    "lint": "cd `npm run eslint-location | tail -1`eslintRules && npm run lint",
+    "lint-cloud-build": "cd ../../ && npm run lint-cloud-build --libtolint=$npm_config_path/src/**/*",
+    "lint-local": "levels=`npm run eslint-location | tail -1 | grep -o / | wc -l` && path=`pwd | rev | cut -d'/' -f 1-$levels | rev` && cd `npm run eslint-location | tail -1` && npm run lint-local --libtolint=$path/src/**/*",
+    "preinstall": "echo \"\\x1b[32m[Emergya Preinstall Clear Cache NPM]\" && npm cache clean --force",
+    "test": "(npm run key-add || true) && (npm ls --depth=0 || npm i) && npm run key-remove && jest --useStderr && rm -r coverage",
+    "test-cloud-build": "npm run clean && npm run audit && tsc && npm pack && mv ${npm_package_name}-${npm_package_version}.tgz ${npm_package_name}.tgz && npm run key-remove && jest --useStderr && rm -r coverage"
+  },
+  "author": "Emergya",
+  "dependencies": {
+    "cypress": "^10.7.0",
+    "cypress-wait-until": "^1.7.2",
+    "cypress-xpath": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "typescript": "4.7.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "17.0.0",
+    "@types/supertest": "^2.0.5",
+    "jest": "^27.2.4",
+    "supertest": "^4.0.2",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^9.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,ts}",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/src/types/**",
+      "!**/coverage/**",
+      "!**/src/v1/routes/**"
+    ],
+    "rootDir": "./",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "functions": 100,
+        "lines": 75
+      }
+    },
+    "testEnvironment": "node"
+  }
+}

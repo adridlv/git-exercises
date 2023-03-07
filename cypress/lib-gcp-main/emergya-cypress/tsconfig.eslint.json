@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["rtl.setup.js", "./src/**/*.ts", "./src/**/*.tsx", "./test/**/*.ts", "./src/**/*.json", "./src/**/*.bk"],
+  "exclude": ["node_modules", "build", "config", "doc", "env", "public", "scripts"]
+}
