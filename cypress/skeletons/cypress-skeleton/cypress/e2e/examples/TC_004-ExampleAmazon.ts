@@ -1,9 +1,13 @@
-import Common from 'emergya-cypress/src/project-types/common';
+//TODO
+// import Common from 'emergya-cypress/src/project-types/common';
 import AmazonPageObject from '../../pages/examples/AmazonPageObject ';
+import {first} from "rxjs";
 
-const common = Common.getInstance();
+//TODO
+// const common = Common.getInstance();
 const amazonExample = AmazonPageObject.getInstance();
 
+//TODO nombres descriptivos
 describe('Testing upload files', () => {
   beforeEach(() => {
     cy.clearCookies();
@@ -11,21 +15,32 @@ describe('Testing upload files', () => {
     cy.reload();
   });
 
+  //TODO nombre del test más descriptivo
   it('TC_004-ExampleAmazon', () => {
     cy.visit('https://amazon.es/');
     cy.wait(2000);
 
     amazonExample.rmvCookies();
-    amazonExample.searchOnSearchNav();
-    cy.get('#nav-search-submit-button').click();
+
+
+    // amazonExample.searchOnSearchNav('papatas');
+    // //TODO utilizar xpath, esto es un selector de CSS
+    // cy.get('#nav-search-submit-button').click();
+
+    amazonExample.search('padel');
+
+
+    //TODO borrar código comentado
     //cy.get("#twotabsearchtextbox").click();
     //amazonExample.clickOnSearchButton();
-    amazonExample.clickOnStars();
-    amazonExample.clickOnProduct();
-    
+    first = //li[@id='p_72/831280031']/span/a/section/span
+    second
+    third
+    fourth
 
-    
-    
+    amazonExample.clickOnStars(first);
+    amazonExample.clickOnProduct();
+
   });
 
 });

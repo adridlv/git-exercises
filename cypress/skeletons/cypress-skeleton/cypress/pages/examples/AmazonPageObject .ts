@@ -20,6 +20,7 @@ class AmazonPageObject {
   }
 
   constructor() {
+    //TODO sacar los selectores a un fichero externo (lib-gcp-main/pages/drupal/selectors)
     this.removeCookies = "/html/body/div[1]/span/form/div[3]/span[1]/span/input"
     this.searchBar = "//input[@id='twotabsearchtextbox']";
     //this.searchBar = "//html/body/div[1]/header/div/div[1]/div[2]/div/form/div[3]/div[1]/input"
@@ -33,9 +34,11 @@ class AmazonPageObject {
     cy.xpath(this.removeCookies).click();
   }
 
-  public searchOnSearchNav():void {
-    cy.xpath(this.searchBar).type("padel");
+  //TODO typeOnSearchNav
+  public searchOnSearchNav(search: string):void {
+    cy.xpath(this.searchBar).type(search);
   }
+
 
   public clickOnSearchButton():void {
     cy.xpath(this.searchBar).click({force: true});
@@ -48,6 +51,12 @@ class AmazonPageObject {
   public clickOnProduct():void {
     cy.xpath(this.selectProduct).click();
   }
+
+  public search(search: string){
+    this.searchOnSearchNav(search);
+    this.clickOnSearchButton();
+  }
+
 
 }
 
