@@ -15,6 +15,8 @@ describe('Testing upload files', () => {
     cy.visit('https://amazon.es/');
 
     asdasd
+    asdasd
+    asdassdadsa
     
   });
 
