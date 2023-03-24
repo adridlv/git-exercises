@@ -14,7 +14,7 @@ describe('Testing upload files', () => {
   it('TC_004-ExampleAmazon', () => {
     cy.visit('https://amazon.es/');
 
-    
+    asdasd
     
   });
 

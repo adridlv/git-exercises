@@ -22,7 +22,7 @@ describe('Testing upload files', () => {
     //amazonExample.clickOnSearchButton();
     amazonExample.clickOnStars();
     amazonExample.clickOnProduct();
-    
+    asdsad
 
     
     
