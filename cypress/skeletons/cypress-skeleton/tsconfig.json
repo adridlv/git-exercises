@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "ES2021",
-    "lib": ["dom"],
-    "types": ["cypress", "node", "cy-verify-downloads", "cypress-wait-until"],
-    "moduleResolution": "node"
-  },
-  "include": ["**/*.ts"]
-}
