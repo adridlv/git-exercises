@@ -1,0 +1,11 @@
+assets/
+doc/
+node_modules/
+src/
+.eslintignore
+.eslintrc.json
+.gitignore
+README.md
+tsconfig.json
+package-lock.json
+.git
